@@ -1,0 +1,103 @@
+body {
+    background-color: #000000;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;       
+    margin: 0;               
+    flex-direction: column;  
+}	
+
+#gameContainer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    gap: 20px; 
+}	
+
+#gameWindow {
+    position: relative;
+    width: 90vw;   
+    max-width: 600px; 
+    height: calc(90vw * (2/3)); 
+    max-height: 400px; 
+
+    background-color: #FFFFFF;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+#output {
+    color: #FFFF00; 
+    font-family: 'Press Start 2P', cursive; 
+    font-size: 2.5em; 
+    text-align: center; 
+    margin-top: 20px; 
+    text-shadow: 0 0 8px #FF00FF, 0 0 15px #FF00FF; 
+    letter-spacing: 2px; 
+    background-color: rgba(0, 0, 0, 0.6); 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    border: 2px solid #FF00FF; 
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.7); 
+}
+
+#pacman, #redGhost, #blueGhost, #pinkGhost, #greenGhost {
+    position: absolute;
+    z-index: 10;
+    transition: transform 0.1s linear;
+    width: calc(100% / 15); 
+    height: calc(100% / 15);
+}
+.rotate90{
+	transform:rotate(90deg);
+	behavior:url(-ms-transform.htc);
+	-moz-transform:rotate(90deg);
+	-webkit-transform:rotate(90deg);
+}
+.rotate270{
+	transform:rotate(270deg);
+	behavior:url(-ms-transform.htc);
+	-moz-transform:rotate(270deg);
+	-webkit-transform:rotate(270deg);
+}
+.flip-horizontal{
+	-moz-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	transform: scaleX(-1);
+	-ms-filter: fliph;
+	filter: fliph;
+}
+
+.wall {
+    position: absolute;
+    background-color: #00008B;
+    border-radius: 8px;
+    border: 2px solid #000066;
+    box-sizing: border-box;
+
+}
+.dot {
+    position: absolute;
+    background: radial-gradient(circle at 25% 25%, #FFFFFF 0%, #FFCCFF 20%, #800080 80%, #4B0082 100%);
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+    to {
+        transform: scale(1.0);
+        opacity: 1;
+    }
+}
+
