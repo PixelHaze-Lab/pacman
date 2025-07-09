@@ -85,10 +85,9 @@ function loadComplete(){
             			 dots.push(dot); 
 
            		}  
-	    
 	    	}
 	}
-	
+	output.innerHTML = 'dot remaining ' + dots.length;
 }	
 	
 function createWall(left, top, width, height){
@@ -166,7 +165,7 @@ function loop(){
 		if( hittest(dots[i], pacman) ){
 			dots[i].style.display ='none';
 			dots.splice(i, 1);
-			output.innerHTML ='dots = ' + dots.length;
+			output.innerHTML = 'dot remaining ' + dots.length;
 			if(dots.length ==0){
 				alert('You win');
 				clearInterval(loopTimer);
@@ -301,7 +300,95 @@ function tryToChangeDirection(){
    
 		
 }
-	
+// =============================================
+// スワイプコントロール用のコード
+// =============================================
+
+// タッチ開始地点と終了地点の座標を保存する変数
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+// ゲーム画面の要素を取得（HTMLの構造に合わせてください）
+// pacman.js内に 'gameWindow' という要素名が登場するため、ここではそれを使用します。
+const gameArea = document.getElementById('gameWindow');
+
+// タッチが開始された時のイベントリスナー
+gameArea.addEventListener('touchstart', function(event) {
+    // 画面がスクロールされるのを防ぎたい場合は下のコメントを解除
+    // event.preventDefault(); 
+    
+    // タッチ開始地点のX座標とY座標を記録
+    touchStartX = event.changedTouches[0].screenX;
+    touchStartY = event.changedTouches[0].screenY;
+}, { passive: false });
+
+// タッチが終了した時のイベントリスナー
+gameArea.addEventListener('touchend', function(event) {
+    // 画面がスクロールされるのを防ぎたい場合は下のコメントを解除
+    // event.preventDefault();
+
+    // タッチ終了地点のX座標とY座標を記録
+    touchEndX = event.changedTouches[0].screenX;
+    touchEndY = event.changedTouches[0].screenY;
+    
+    // スワイプ方向を判定して処理を実行
+    handleSwipe();
+}, { passive: false });
+
+
+/**
+ * スワイプ方向を判定し、パックマンの移動方向フラグを操作する関数
+ */
+function handleSwipe() {
+    // X軸とY軸の移動量を計算
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    
+    // スワイプと判定するための最低移動量（ピクセル単位）
+    const swipeThreshold = 30;
+
+    // どのキーも押されていない状態に一旦リセット
+    upArrowDown = false;
+    downArrowDown = false;
+    leftArrowDown = false;
+    rightArrowDown = false;
+
+    // 横方向のスワイプか、縦方向のスワイプかを判定
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // 横方向のスワイプ
+        if (Math.abs(deltaX) > swipeThreshold) {
+            if (deltaX > 0) {
+                // 右へのスワイプ
+                rightArrowDown = true;
+            } else {
+                // 左へのスワイプ
+                leftArrowDown = true;
+            }
+        }
+    } else {
+        // 縦方向のスワイプ
+        if (Math.abs(deltaY) > swipeThreshold) {
+            if (deltaY > 0) {
+                // 下へのスワイプ
+                downArrowDown = true;
+            } else {
+                // 上へのスワイプ
+                upArrowDown = true;
+            }
+        }
+    }
+    
+    // 50ミリ秒（ゲームの1フレーム分）だけキーが押されたことにする
+    // これにより、既存の `tryToChangeDirection` 関数がスワイプを認識してくれます。
+    setTimeout(() => {
+        upArrowDown = false;
+        downArrowDown = false;
+        leftArrowDown = false;
+        rightArrowDown = false;
+    }, 50);
+}	
 
 
 
