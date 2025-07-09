@@ -1,27 +1,29 @@
+/* 全体のbody設定 */
 body {
-    background-color: #000000;
+    background-color: #111;
     display: flex;
     justify-content: center; 
     align-items: center;     
     min-height: 100vh;       
     margin: 0;               
-    flex-direction: column;  
+    flex-direction: column; 
+    font-family: sans-serif; 
 }	
 
 #gameContainer {
+    width: 100%;
     display: flex;
     flex-direction: column; 
     align-items: center;    
-    gap: 20px; 
+    padding: 20px 0;
 }	
 
 #gameWindow {
     position: relative;
     width: 90vw;   
     max-width: 600px; 
+    max-height: 400px;
     height: calc(90vw * (2/3)); 
-    max-height: 400px; 
-
     background-color: #FFFFFF;
     overflow: hidden;
     border-radius: 10px;
@@ -31,7 +33,8 @@ body {
 #output {
     color: #FFFF00; 
     font-family: 'Press Start 2P', cursive; 
-    font-size: 2.5em; 
+    font-size: 1.2em; 
+    font-weight: bold;
     text-align: center; 
     margin-top: 20px; 
     text-shadow: 0 0 8px #FF00FF, 0 0 15px #FF00FF; 
@@ -98,6 +101,21 @@ body {
     to {
         transform: scale(1.0);
         opacity: 1;
+    }
+}
+/* ===== スマートフォン向けのスタイル ===== */
+@media (max-width: 620px) {
+    #gameContainer {
+        padding: 0;
+    }
+
+    #gameWindow {
+        transform: scale(calc(100vw / 600));
+    }
+    
+    #output {
+        margin-top: 10px;
+        font-size: 5vw; 
     }
 }
 
